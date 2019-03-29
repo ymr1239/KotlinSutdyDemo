@@ -1,5 +1,7 @@
 package com.wljr.kotlinsutdydemo
 
+import android.app.Dialog
+import android.graphics.RectF
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 
@@ -19,6 +21,14 @@ abstract class BasicGrammarActivity : AppCompatActivity() {
     var b1: String? = "abc"
     //val l1 = b1.length // 错误：变量“b”可能为空
 
+    /**
+     * 使用字符串模板
+     */
+    var a4 = 1
+    // 模板中的简单名称：
+    val s1 = "a is $a4"
+    // 模板中的任意表达式：
+    val s2 = "${s1.replace("is", "was")}, but now is $a"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,10 +101,102 @@ abstract class BasicGrammarActivity : AppCompatActivity() {
         val nullableList: List<Int?> = listOf(1, 2, null, 4)
         val intList: List<Int> = nullableList.filterNotNull()
         /*--------------------------------------变量------------------------------------------------ */
+
+        /*--------------------------------------其他------------------------------------------------ */
+        /**
+         * 使用 for 循环
+         */
+        val items = listOf("apple", "banana", "kiwifruit")
+        for (item in items) {
+            println(item)
+        }
+        //或者
+        val items2 = listOf("apple", "banana", "kiwifruit")
+        for (index in items.indices) {
+            println("item at $index is ${items[index]}")
+        }
+
+        /**
+         * 使用 while 循环
+         */
+        val items4 = listOf("apple", "banana", "kiwifruit")
+        var index = 0
+        while (index < items.size) {
+            println("item at $index is ${items[index]}")
+            index++
+        }
+
+        /**
+         * 使用 when 表达式
+         */
+        fun describe(obj: Any): String =
+            when (obj) {
+                1          -> "One"
+                "Hello"    -> "Greeting"
+                is Long    -> "Long"
+                !is String -> "Not a string"
+                else       -> "Unknown"
+            }
+
+        /**
+         * 使用区间（range）
+         */
+        //使用 in 运算符来检测某个数字是否在指定区间内：
+        val x = 10
+        val y = 9
+        if (x in 1..y+1) {
+            println("fits in range")
+        }
+        //检测某个数字是否在指定区间外:
+        val list = listOf("a", "b", "c")
+        if (-1 !in 0..list.lastIndex) {
+            println("-1 is out of range")
+        }
+        if (list.size !in list.indices) {
+            println("list size is out of valid list indices range, too")
+        }
+        //区间迭代:
+        for (x in 1..5) {
+            print(x)
+        }
+        //或数列迭代：
+        for (x in 1..10 step 2) {
+            print(x)
+        }
+        println()
+        for (x in 9 downTo 0 step 3) {
+            print(x)
+        }
+
+        /**
+         * 使用集合
+         */
+        //对集合进行迭代:
+        for (item in items) {
+            println(item)
+        }
+        //使用 in 运算符来判断集合内是否包含某实例：
+        when {
+            "orange" in items -> println("juicy")
+            "apple" in items -> println("apple is fine too")
+        }
+        //使用 lambda 表达式来过滤（filter）与映射（map）集合：
+        val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+        fruits
+            .filter { it.startsWith("a") }
+            .sortedBy { it }
+            .map { it.toUpperCase() }
+            .forEach { println(it) }
+
+        /**
+         * 创建基本类及其实例：
+         */
+        val rectangle = Dialog(this) // 不需要“new”关键字
+        val triangle = RectF()
     }
 
 
-
+/*-----------------------------------------------------函数-------------------------------------------*/
     /**
      * 定义函数
      */
@@ -189,5 +291,52 @@ abstract class BasicGrammarActivity : AppCompatActivity() {
     /**
      * 未完,待续
      */
+/*-----------------------------------------------------函数-------------------------------------------*/
+
+/*-----------------------------------------------------其他-------------------------------------------*/
+    /**
+     * 使用条件表达式
+     */
+    fun maxOf(a: Int, b: Int): Int {
+        if (a > b) {
+            return a
+        } else {
+            return b
+        }
+    }
+    //使用 if 作为表达式:
+    fun maxOf1(a: Int, b: Int) = if (a > b) a else b
+
+    /**
+     * 使用类型检测及自动类型转换
+     * is 运算符检测一个表达式是否某类型的一个实例。 如果一个不可变的局部变量或属性已经判断出为某类型，
+     * 那么检测后的分支中可以直接当作该类型使用，无需显式转换：
+     */
+    fun getStringLength(obj: Any): Int? {
+        if (obj is String) {
+            // `obj` 在该条件分支内自动转换成 `String`
+            return obj.length
+        }
+
+        // 在离开类型检测分支后，`obj` 仍然是 `Any` 类型
+        return null
+    }
+    //或者
+    fun getStringLength2(obj: Any): Int? {
+        if (obj !is String) return null
+
+        // `obj` 在这一分支自动转换为 `String`
+        return obj.length
+    }
+    //或者
+    fun getStringLength3(obj: Any): Int? {
+        // `obj` 在 `&&` 右边自动转换成 `String` 类型
+        if (obj is String && obj.length > 0) {
+            return obj.length
+        }
+
+        return null
+    }
+
 
 }
