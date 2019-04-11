@@ -1,9 +1,14 @@
-package com.wljr.kotlinsutdydemo
+package com.wljr.kotlinsutdydemo.summary
 
 import android.app.Dialog
 import android.graphics.RectF
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.wljr.kotlinsutdydemo.R
+
+/**
+ * 基础语法
+ */
 
 abstract class BasicGrammarActivity : AppCompatActivity() {
     /**
